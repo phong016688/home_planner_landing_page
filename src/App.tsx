@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sparkles, 
@@ -10,23 +10,22 @@ import {
   Check, 
   ChevronDown, 
   Globe, 
-  Home as HomeIcon, 
-  History as HistoryIcon, 
-  Heart, 
-  Settings, 
+  Home as HomeIcon,
+  History as HistoryIcon,
+  Heart,
+  Settings,
   ArrowLeft, 
+  ArrowRight,
   Zap,
   Layers,
-  Ruler,
-  Maximize2,
-  Cat,
-  SlidersHorizontal,
   Download,
-  QrCode
+  QrCode,
+  BookOpen
 } from 'lucide-react';
-import { privacyPolicy, type PrivacyPolicyBlock } from './content/privacyPolicy';
+import { privacyPolicy } from './content/privacyPolicy';
 import { translations, type Language, SUPPORTED_LANGUAGES, detectUserLanguage } from './content/i18n';
 import { ArticlesIndexView, ArticleDetailView } from './pages/ArticlesPage';
+import { ARTICLES } from './content/articles';
 import { cn } from './lib/utils';
 
 // --- App Store & Google Play SVG Icons ---
@@ -226,6 +225,7 @@ const Footer = ({ lang }: { lang: Language }) => {
 
 // --- Interactive Mobile Phone Mockup Component ---
 const MobilePhoneMockup = ({ lang, activeTab, setActiveTab }: { lang: Language; activeTab: string; setActiveTab: (t: string) => void }) => {
+  const _t = translations[lang] || translations.vi;
   const [selectedRoom, setSelectedRoom] = useState('living');
   const [selectedPet, setSelectedPet] = useState('cat');
 
@@ -524,7 +524,6 @@ const QRModal = ({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () => vo
 const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload: () => void }) => {
   const t = translations[lang];
   const [activeTab, setActiveTab] = useState('home');
-  const [sliderPos, setSliderPos] = useState(50);
 
   return (
     <div className="pt-16 bg-gradient-to-b from-stone-50/50 via-white to-stone-50/30">
@@ -829,7 +828,52 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
         </div>
       </section>
 
-      {/* 6. FAQ SECTION */}
+      {/* 6. ARTICLES PREVIEW SECTION */}
+      <section id="articles" className="py-16 lg:py-24 bg-white border-t border-stone-200/60">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-blue-600 bg-blue-50 border border-blue-200 rounded-full">
+                <BookOpen className="w-3.5 h-3.5" /> Cẩm Nang & Bài Viết
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-stone-900 mt-2">Bài Viết & Hướng Dẫn Mới Nhất</h2>
+            </div>
+            <Link 
+              to="/articles" 
+              className="text-xs font-extrabold text-blue-600 hover:text-blue-700 flex items-center gap-1 group"
+            >
+              Xem Tất Cả Bài Viết <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {ARTICLES.slice(0, 3).map((art) => (
+              <article key={art.slug} className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden flex flex-col hover:border-blue-500 hover:shadow-lg transition-all group">
+                <div className="aspect-[16/10] overflow-hidden bg-stone-100 relative">
+                  <img src={art.image} alt={art.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <span className="absolute top-3 left-3 bg-stone-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">
+                    {art.category}
+                  </span>
+                </div>
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <div>
+                    <div className="text-[11px] text-stone-400 mb-1">{art.date} • {art.readTime}</div>
+                    <h3 className="font-extrabold text-stone-900 text-base group-hover:text-blue-600 transition-colors line-clamp-2">
+                      <Link to={`/articles/${art.slug}`}>{art.title}</Link>
+                    </h3>
+                    <p className="text-xs text-stone-600 line-clamp-2 mt-2 leading-relaxed">{art.excerpt}</p>
+                  </div>
+                  <Link to={`/articles/${art.slug}`} className="text-xs font-extrabold text-blue-600 flex items-center gap-1 pt-2">
+                    Đọc Bài Viết &rarr;
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. FAQ SECTION */}
       <section id="faq" className="py-16 bg-stone-100/50 border-t border-stone-200/60">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl font-black text-center text-stone-900 mb-10">{t.faq.title}</h2>
@@ -853,6 +897,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
 
 // --- Privacy Policy View ---
 const PrivacyPolicyView = ({ lang }: { lang: Language }) => {
+  const _t = translations[lang] || translations.vi;
   return (
     <div className="pt-24 pb-20 max-w-4xl mx-auto px-4 sm:px-6">
       <div className="bg-white rounded-3xl p-6 sm:p-10 border border-stone-200 shadow-sm space-y-8">
@@ -928,6 +973,15 @@ const HelpCenterView = ({ lang }: { lang: Language }) => {
   );
 };
 
+// --- Scroll To Top Helper ---
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 // --- Main App Component ---
 export default function App() {
   const [lang, setLang] = useState<Language>(detectUserLanguage);
@@ -943,6 +997,7 @@ export default function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col font-sans bg-white">
         <Navbar lang={lang} setLang={handleSetLang} onOpenDownload={() => setIsQRModalOpen(true)} />
         
