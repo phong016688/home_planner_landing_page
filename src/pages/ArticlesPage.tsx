@@ -1,12 +1,22 @@
-import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowLeft, Clock, Calendar, User, Tag, Sparkles, Download, QrCode, BookOpen } from 'lucide-react';
-import { ARTICLES, type Article } from '../content/articles';
-import { type Language } from '../content/i18n';
+import { ArrowLeft, Clock, Calendar, User, Tag, Sparkles, QrCode, BookOpen, Download } from 'lucide-react';
+import { ARTICLES } from '../content/articles';
+import { translations, type Language } from '../content/i18n';
+
+const HOME_APP_STORE_URL = 'https://apps.apple.com/us/app/home-planner-ai/id6751722422';
+const HOME_PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.mentos_koder.homedecorai';
+
+const HomeStoreButtons = () => (
+  <div className="flex gap-2 shrink-0">
+    <a href={HOME_APP_STORE_URL} target="_blank" rel="noreferrer" className="px-4 py-3 rounded-full bg-stone-950 text-white text-xs font-extrabold">App Store</a>
+    <a href={HOME_PLAY_STORE_URL} target="_blank" rel="noreferrer" className="px-4 py-3 rounded-full border border-stone-300 bg-white text-stone-900 text-xs font-extrabold">Google Play</a>
+  </div>
+);
 
 // --- Articles Index Page Component ---
 export const ArticlesIndexView = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload: () => void }) => {
+  const _t = translations[lang] || translations.vi;
   return (
     <div className="pt-24 pb-20 max-w-6xl mx-auto px-4 sm:px-6">
       
@@ -38,6 +48,9 @@ export const ArticlesIndexView = ({ lang, onOpenDownload }: { lang: Language; on
               <img 
                 src={article.image} 
                 alt={article.title} 
+                onError={(event) => {
+                  event.currentTarget.src = '/hero_room_redesign.jpg';
+                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
               />
               <span className="absolute top-4 left-4 bg-stone-900/80 backdrop-blur-md text-white text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
@@ -96,12 +109,7 @@ export const ArticlesIndexView = ({ lang, onOpenDownload }: { lang: Language; on
           <p className="text-xs sm:text-sm text-stone-300 max-w-lg">Tải ngay ứng dụng Home Planner AI trên iOS và Android để trải nghiệm thiết kế phòng, thay màu sơn ngoại thất và tạo góc nuôi thú cưng chỉ trong 10 giây.</p>
         </div>
 
-        <button 
-          onClick={onOpenDownload}
-          className="px-6 py-3.5 rounded-2xl bg-blue-600 text-white font-extrabold text-xs sm:text-sm hover:bg-blue-700 transition-all shadow-lg flex items-center gap-2 shrink-0 active:scale-95"
-        >
-          <QrCode className="w-4 h-4" /> Tải App Ngay
-        </button>
+        <HomeStoreButtons />
       </div>
     </div>
   );
@@ -109,6 +117,7 @@ export const ArticlesIndexView = ({ lang, onOpenDownload }: { lang: Language; on
 
 // --- Single Article Detail Page Component ---
 export const ArticleDetailView = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload: () => void }) => {
+  const _t = translations[lang] || translations.vi;
   const { slug } = useParams<{ slug: string }>();
   const article = ARTICLES.find((a) => a.slug === slug);
 
@@ -157,7 +166,14 @@ export const ArticleDetailView = ({ lang, onOpenDownload }: { lang: Language; on
 
         {/* Featured Image */}
         <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-stone-200 shadow-md">
-          <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
+          <img
+            src={article.image}
+            alt={article.title}
+            onError={(event) => {
+              event.currentTarget.src = '/hero_room_redesign.jpg';
+            }}
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* Article HTML Content */}
@@ -182,12 +198,7 @@ export const ArticleDetailView = ({ lang, onOpenDownload }: { lang: Language; on
             <h4 className="text-xl font-black">Thử Ngay Với Ảnh Phòng Của Bạn!</h4>
             <p className="text-xs text-blue-100">Tải ứng dụng Home Planner AI hoàn toàn miễn phí trên iOS & Android.</p>
           </div>
-          <button 
-            onClick={onOpenDownload}
-            className="px-5 py-3 rounded-2xl bg-white text-blue-600 font-extrabold text-xs shadow-md hover:bg-blue-50 transition-colors shrink-0 flex items-center gap-2"
-          >
-            <Download size={14} /> Tải Ứng Dụng
-          </button>
+          <HomeStoreButtons />
         </div>
       </article>
 

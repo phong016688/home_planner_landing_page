@@ -1,8 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: "Cormorant Garamond", Georgia, serif;
+  --color-home-terracotta: #b95f45;
+  --color-home-olive: #68705a;
+}
 
 @layer base {
   html {
     scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans bg-[#f7f4ee] text-stone-900;
+  }
+
+  h1, h2 {
+    font-family: var(--font-editorial);
+    letter-spacing: -0.02em;
   }
 }
 

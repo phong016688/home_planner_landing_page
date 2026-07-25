@@ -20,7 +20,7 @@ export const ARTICLES: Article[] = [
     date: 'July 25, 2026',
     author: 'Home Planner AI Team',
     category: 'Interior Design',
-    image: '/hero_room_redesign.jpg',
+    image: '/articles/home-room-redesign.webp',
     keywords: ['AI Interior Design', 'Room Redesign', 'Virtual Home Decor', 'Furniture AI', 'Home Planning'],
     content: `
       <h2>The Revolution of AI in Modern Interior Design</h2>
@@ -66,7 +66,7 @@ export const ARTICLES: Article[] = [
     date: 'July 24, 2026',
     author: 'Home Planner AI Team',
     category: 'Exterior Design',
-    image: '/exterior_facade.jpg',
+    image: '/articles/home-facade-refresh.webp',
     keywords: ['Exterior House Design', 'Facade Paint AI', 'Curbside Appeal', 'Landscape AI', 'Architectural Makeover'],
     content: `
       <h2>The Importance of Exterior House Facades & Curb Appeal</h2>
@@ -101,7 +101,7 @@ export const ARTICLES: Article[] = [
     date: 'July 23, 2026',
     author: 'Home Planner AI Team',
     category: 'Pet Zone',
-    image: '/pet_zone_design.jpg',
+    image: '/articles/home-pet-zone.webp',
     keywords: ['Pet Interior Design', 'Cat Climbing Shelves', 'Dog Lounge', 'Pet Friendly Home', 'Pet Corner AI'],
     content: `
       <h2>Harmonizing Pet Lifestyle with Modern Interior Aesthetics</h2>
@@ -135,7 +135,7 @@ export const ARTICLES: Article[] = [
     date: 'July 22, 2026',
     author: 'Home Planner AI Team',
     category: 'AI Tools',
-    image: '/hero_room_redesign.jpg',
+    image: '/articles/home-before-buying-furniture.webp',
     keywords: ['Replace Furniture AI', 'Real Dimensions AI', 'Furniture Inpainting', 'Room Measurement AI', 'Spatial Planning'],
     content: `
       <h2>Precision Room Editing: Solve the One-Item Replacement Dilemma</h2>
@@ -162,6 +162,56 @@ export const ARTICLES: Article[] = [
 
       <h3>Start Planning Smarter Today</h3>
       <p>Combine targeted furniture replacement with instant dimension scaling inside <strong>Home Planner AI</strong> to make every home decor project hassle-free and precision-perfect.</p>
+    `
+  },
+  {
+    slug: 'small-living-room-ai-makeover',
+    title: '7 Small Living Room Makeovers to Try Before Buying New Furniture',
+    excerpt: 'Use the room you already have more intelligently with layout, lighting, and color ideas you can preview before spending.',
+    readTime: '7 min read',
+    date: 'July 21, 2026',
+    author: 'Home Planner AI Team',
+    category: 'Small Spaces',
+    image: '/articles/home-small-living-room.webp',
+    keywords: ['Small Living Room', 'AI Room Makeover', 'Furniture Layout', 'Apartment Design'],
+    content: `
+      <h2>Small Rooms Need Better Decisions, Not More Furniture</h2>
+      <p>A compact living room can feel generous when circulation, visual weight, and lighting work together. Before replacing everything, photograph the room from the entrance and test one change at a time in Home Planner AI.</p>
+      <h3>Seven High-Impact Ideas</h3>
+      <ol>
+        <li>Float the sofa a few centimeters away from the wall.</li>
+        <li>Choose one visually light coffee table instead of several small tables.</li>
+        <li>Use full-height curtains to emphasize vertical space.</li>
+        <li>Test a warm off-white wall rather than clinical pure white.</li>
+        <li>Keep the main walking route free of furniture corners.</li>
+        <li>Repeat one wood tone across storage and side tables.</li>
+        <li>Add a single larger artwork instead of many tiny frames.</li>
+      </ol>
+      <h3>Preview Before You Purchase</h3>
+      <p>Generate several directions from the same photo and compare them side by side. The goal is not to copy every AI suggestion, but to identify the layout and palette that make your real room feel balanced.</p>
+    `
+  },
+  {
+    slug: 'earthy-interior-color-trends-2026',
+    title: 'The 2026 Earthy Color Trend: Terracotta, Olive & Warm Limewash at Home',
+    excerpt: 'A practical guide to using the year’s warmest interior palette without making your space feel dark, themed, or difficult to update.',
+    readTime: '6 min read',
+    date: 'July 20, 2026',
+    author: 'Home Planner AI Team',
+    category: '2026 Trends',
+    image: '/articles/home-color-trends-2026.webp',
+    keywords: ['Interior Color Trends 2026', 'Terracotta Room', 'Olive Green Interior', 'Warm Minimalism'],
+    content: `
+      <h2>Why Earthy Rooms Feel Current—and Last</h2>
+      <p>Terracotta and olive are trending because they bring warmth back to minimal interiors. Used carefully, they also age better than a room built around one loud seasonal color.</p>
+      <h3>The 60–30–10 Formula</h3>
+      <ul>
+        <li><strong>60% foundation:</strong> warm limewash, oatmeal, or soft stone.</li>
+        <li><strong>30% supporting tone:</strong> natural oak, walnut, or muted olive textiles.</li>
+        <li><strong>10% accent:</strong> clay ceramics, terracotta cushions, or warm metal lighting.</li>
+      </ul>
+      <h3>Test Light at Different Times</h3>
+      <p>A color that feels cozy in morning light can become heavy after sunset. Use one room photo in daylight and another with lamps on, then preview the same palette in Home Planner AI before ordering paint or fabric.</p>
     `
   }
 ];
