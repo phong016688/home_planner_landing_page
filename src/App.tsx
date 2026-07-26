@@ -71,8 +71,8 @@ const Navbar = ({ lang, setLang, onOpenDownload }: { lang: Language; setLang: (l
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-100 shadow-xs">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex justify-between h-16 items-center">
+      <div className="landing-container">
+        <div className="flex justify-between h-16 md:h-[72px] items-center">
           <Link to="/" className="flex items-center gap-3">
             <Logo className="w-9 h-9" />
             <span className="font-extrabold text-lg tracking-tight text-stone-900">Home Planner AI</span>
@@ -179,7 +179,7 @@ const Footer = ({ lang }: { lang: Language }) => {
 
   return (
     <footer className="bg-stone-900 text-stone-400 py-12 text-xs border-t border-stone-800">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="landing-container">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2.5 mb-3">
@@ -524,40 +524,53 @@ const QRModal = ({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () => vo
 const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload: () => void }) => {
   const t = translations[lang];
   const [activeTab, setActiveTab] = useState('home');
+  const heroVisuals: Record<string, { src: string; alt: string }> = {
+    home: { src: '/assets/landing/home-hero-v2.webp', alt: 'Before and after living room redesign inspiration' },
+    exterior: { src: '/assets/landing/home-exterior-v2.webp', alt: 'Before and after exterior facade refresh' },
+    pet: { src: '/assets/landing/home-pet-zone-v2.webp', alt: 'Integrated pet-friendly living room design' },
+    roomTypes: { src: '/assets/landing/home-furniture-v2.webp', alt: 'Furniture planning in a real living room' },
+  };
+  const activeHeroVisual = heroVisuals[activeTab] ?? heroVisuals.home;
+  const homeReviews = [
+    { quote: 'I could compare two room directions before buying anything. The decision felt much easier.', name: 'Maya R.' },
+    { quote: 'The exterior preview helped our family agree on materials before speaking with a contractor.', name: 'Daniel K.' },
+    { quote: 'Pet Zone gave us ideas that work for our cat without making the room feel like a playroom.', name: 'Sofia L.' },
+  ];
 
   return (
-    <div className="pt-16 bg-gradient-to-b from-stone-50/50 via-white to-stone-50/30">
+    <div className="pt-16 md:pt-[72px] bg-gradient-to-b from-stone-50/50 via-white to-stone-50/30">
       
       {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="relative overflow-hidden py-16 lg:py-24">
+        <div className="landing-container relative z-10">
+          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
             
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
+              className="lg:col-span-5"
             >
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1 mb-4 text-[11px] font-extrabold tracking-wider uppercase bg-blue-50 text-blue-600 border border-blue-200 rounded-full">
                 <Sparkles className="w-3.5 h-3.5 text-blue-600" /> {t.hero.badge}
               </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-[1.1] text-stone-900">
+              <h1 className="hero-title font-black tracking-tight mb-5 text-stone-900">
                 {t.hero.titleStart} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-600">
                   {t.hero.titleHighlight}
                 </span>
               </h1>
-              <p className="text-sm sm:text-base text-stone-600 mb-8 leading-relaxed max-w-lg">
+              <p className="text-base sm:text-lg text-stone-600 mb-8 leading-relaxed max-w-lg">
                 {t.hero.subtitle}
               </p>
 
               {/* App Store & Google Play Badges */}
               <div className="p-4 bg-white rounded-3xl border border-stone-200/80 shadow-md max-w-lg space-y-3">
-                <div className="flex flex-col sm:flex-row items-center gap-3">
+                <div className="flex flex-row items-stretch gap-3">
                   <a 
                     href="https://apps.apple.com/us/app/home-planner-ai/id6751722422" 
                     target="_blank" rel="noreferrer"
-                    className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-4 py-3 rounded-2xl bg-stone-900 text-white font-bold hover:bg-stone-800 transition-all shadow-sm active:scale-95"
+                    className="w-1/2 min-w-0 flex items-center justify-center gap-2 px-3 sm:px-4 py-3 rounded-2xl bg-stone-900 text-white font-bold hover:bg-stone-800 transition-all shadow-sm active:scale-95"
                   >
                     <AppleIcon className="w-5 h-5 shrink-0" />
                     <div className="text-left">
@@ -568,7 +581,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
                   <a 
                     href="https://play.google.com/store/apps/details?id=com.mentos_koder.homedecorai" 
                     target="_blank" rel="noreferrer"
-                    className="w-full sm:w-1/2 flex items-center justify-center gap-3 px-4 py-3 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-all shadow-sm active:scale-95"
+                    className="w-1/2 min-w-0 flex items-center justify-center gap-2 px-3 sm:px-4 py-3 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-all shadow-sm active:scale-95"
                   >
                     <PlayStoreIcon className="w-5 h-5 shrink-0" />
                     <div className="text-left">
@@ -587,14 +600,32 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
               </div>
             </motion.div>
 
-            {/* Hero Visual: Interactive Phone Mockup */}
+            {/* Hero Visual */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="relative"
+              className="relative lg:col-span-7"
             >
-              <MobilePhoneMockup lang={lang} activeTab={activeTab} setActiveTab={setActiveTab} />
+              <div className="relative aspect-[3/2] overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-[0_30px_90px_rgba(73,63,48,0.18)]">
+                <img
+                  src={activeHeroVisual.src}
+                  alt={activeHeroVisual.alt}
+                  className="h-full w-full object-cover"
+                  width="1536"
+                  height="1024"
+                  fetchPriority="high"
+                />
+                <div className="absolute inset-x-5 bottom-5 flex items-center justify-between gap-3 rounded-2xl border border-white/70 bg-white/90 p-4 shadow-lg backdrop-blur">
+                  <div>
+                    <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-blue-600">AI preview</p>
+                    <p className="mt-1 text-sm font-extrabold text-stone-900">{activeTab === 'exterior' ? t.features.f2.title : activeTab === 'pet' ? t.features.f5.title : t.features.f1.title}</p>
+                  </div>
+                  <button onClick={onOpenDownload} className="min-h-11 rounded-full bg-blue-600 px-4 text-xs font-extrabold text-white hover:bg-blue-700">
+                    {t.nav.download}
+                  </button>
+                </div>
+              </div>
             </motion.div>
 
           </div>
@@ -619,7 +650,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div onClick={() => setActiveTab('home')} className="bg-white p-3 rounded-2xl border border-stone-200 shadow-xs hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer group">
                 <div className="rounded-xl overflow-hidden aspect-[4/3] mb-2.5 relative">
-                  <img src="/hero_room_redesign.jpg" alt="Interior Redesign" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src="/assets/landing/home-hero-v2.webp" alt="Interior Redesign" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" />
                   <span className="absolute top-2 left-2 bg-blue-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs">AI INTERIOR</span>
                 </div>
                 <h4 className="font-extrabold text-xs text-stone-900 group-hover:text-blue-600 transition-colors">Interior For Your Room</h4>
@@ -628,7 +659,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
 
               <div onClick={() => setActiveTab('exterior')} className="bg-white p-3 rounded-2xl border border-stone-200 shadow-xs hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer group">
                 <div className="rounded-xl overflow-hidden aspect-[4/3] mb-2.5 relative">
-                  <img src="/exterior_facade.jpg" alt="Exterior Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src="/assets/landing/home-exterior-v2.webp" alt="Exterior Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" />
                   <span className="absolute top-2 left-2 bg-stone-900 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs">FACADE & PAINT</span>
                 </div>
                 <h4 className="font-extrabold text-xs text-stone-900 group-hover:text-blue-600 transition-colors">Exterior Design</h4>
@@ -637,7 +668,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
 
               <div onClick={() => setActiveTab('pet')} className="bg-white p-3 rounded-2xl border border-stone-200 shadow-xs hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer group">
                 <div className="rounded-xl overflow-hidden aspect-[4/3] mb-2.5 relative">
-                  <img src="/pet_zone_design.jpg" alt="Pet Zone Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src="/assets/landing/home-pet-zone-v2.webp" alt="Pet Zone Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" />
                   <span className="absolute top-2 left-2 bg-amber-500 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs">PET ZONE</span>
                 </div>
                 <h4 className="font-extrabold text-xs text-stone-900 group-hover:text-blue-600 transition-colors">Pet Zone Design</h4>
@@ -646,7 +677,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
 
               <div onClick={() => setActiveTab('home')} className="bg-white p-3 rounded-2xl border border-stone-200 shadow-xs hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer group">
                 <div className="rounded-xl overflow-hidden aspect-[4/3] mb-2.5 relative">
-                  <img src="/hero_room_redesign.jpg" alt="Replace Furniture & Real Dimensions" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src="/assets/landing/home-furniture-v2.webp" alt="Replace Furniture & Real Dimensions" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" />
                   <span className="absolute top-2 left-2 bg-purple-600 text-white text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs">REPLACE & DIMENSIONS</span>
                 </div>
                 <h4 className="font-extrabold text-xs text-stone-900 group-hover:text-blue-600 transition-colors">Replace & Dimensions</h4>
@@ -659,7 +690,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
 
       {/* 2. SOCIAL PROOF */}
       <section className="py-8 bg-stone-900 text-white border-y border-stone-800">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+        <div className="landing-container text-center">
           <p className="text-[11px] font-bold uppercase tracking-widest text-amber-400 mb-6">{t.socialProof.headline}</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-4 bg-stone-800/60 rounded-2xl border border-stone-700/50">
@@ -685,19 +716,19 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
       </section>
 
       {/* 3. INTERACTIVE BEFORE/AFTER SLIDER SHOWCASE */}
-      <section id="features" className="py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section id="features" className="landing-section">
+        <div className="landing-container">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-blue-600 font-extrabold text-xs tracking-wider uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
               {t.features.f1.tag}
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-stone-900 mt-3 mb-3">{t.features.title}</h2>
+            <h2 className="landing-title font-black text-stone-900 mt-3 mb-3">{t.features.title}</h2>
             <p className="text-stone-500 text-sm leading-relaxed">{t.features.subtitle}</p>
           </div>
 
           {/* Interactive Before/After Room Redesign */}
           <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white max-w-4xl mx-auto aspect-[16/9] group">
-            <img src="/hero_room_redesign.jpg" alt="Before and After Room Transformation" className="w-full h-full object-cover" />
+            <img src="/assets/landing/home-hero-v2.webp" alt="Before and after room transformation" className="w-full h-full object-cover" width="1536" height="1024" loading="lazy" />
             
             <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col sm:flex-row justify-between items-center bg-stone-900/80 backdrop-blur-md p-4 rounded-2xl text-white gap-3 border border-stone-700">
               <div>
@@ -713,8 +744,8 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
       </section>
 
       {/* 4. FEATURE GRID (FROM SCREENSHOTS) */}
-      <section className="py-16 bg-stone-100/70 border-y border-stone-200/60">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section className="landing-section bg-stone-100/70 border-y border-stone-200/60">
+        <div className="landing-container">
           <div className="grid md:grid-cols-2 gap-8">
             
             {/* Exterior Design */}
@@ -727,7 +758,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
                 <p className="text-xs text-stone-500 leading-relaxed">{t.features.f2.desc}</p>
               </div>
               <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-stone-100 relative group">
-                <img src="/exterior_facade.jpg" alt="Exterior Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src="/assets/landing/home-exterior-v2.webp" alt="Exterior Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" loading="lazy" />
                 <div className="absolute bottom-3 right-3">
                   <button onClick={() => setActiveTab('exterior')} className="bg-blue-600 text-white font-bold text-xs px-4 py-2 rounded-xl shadow-md">
                     {t.features.f2.btn}
@@ -746,7 +777,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
                 <p className="text-xs text-stone-500 leading-relaxed">{t.features.f3.desc}</p>
               </div>
               <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-stone-100 relative group">
-                <img src="/hero_room_redesign.jpg" alt="Replace Furniture" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src="/assets/landing/home-furniture-v2.webp" alt="Replace Furniture" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" loading="lazy" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-cyan-400 bg-cyan-500/20 px-6 py-2 rounded-xl backdrop-blur-xs text-white text-xs font-bold shadow-lg">
                   🛋️ Sofa Marked for Swap
                 </div>
@@ -768,7 +799,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
                 <p className="text-xs text-stone-500 leading-relaxed">{t.features.f4.desc}</p>
               </div>
               <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-stone-100 relative group">
-                <img src="/hero_room_redesign.jpg" alt="Real Dimensions" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src="/assets/landing/home-furniture-v2.webp" alt="Real Dimensions" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" loading="lazy" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="border-t-2 border-dashed border-blue-400 w-3/4 flex justify-between items-center px-2 text-white font-black text-xs bg-stone-900/60 py-1 rounded-full backdrop-blur-xs">
                     <span>📏 1.6m</span>
@@ -793,7 +824,7 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
                 <p className="text-xs text-stone-500 leading-relaxed">{t.features.f5.desc}</p>
               </div>
               <div className="rounded-2xl overflow-hidden aspect-[16/9] border border-stone-100 relative group">
-                <img src="/pet_zone_design.jpg" alt="Pet Zone Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src="/assets/landing/home-pet-zone-v2.webp" alt="Pet Zone Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" width="1536" height="1024" loading="lazy" />
                 <div className="absolute bottom-3 right-3">
                   <button onClick={() => setActiveTab('pet')} className="bg-blue-600 text-white font-bold text-xs px-4 py-2 rounded-xl shadow-md">
                     {t.features.f5.btn}
@@ -807,8 +838,8 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
       </section>
 
       {/* 5. ROOM TYPES & PET TYPES SECTION */}
-      <section id="room-types" className="py-16 lg:py-24">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section id="room-types" className="landing-section">
+        <div className="landing-container">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl sm:text-4xl font-black text-stone-900 mb-3">{t.roomTypes.title}</h2>
             <p className="text-stone-500 text-sm leading-relaxed">{t.roomTypes.subtitle}</p>
@@ -828,9 +859,51 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
         </div>
       </section>
 
-      {/* 6. ARTICLES PREVIEW SECTION */}
-      <section id="articles" className="py-16 lg:py-24 bg-white border-t border-stone-200/60">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      {/* 6. HOW IT WORKS */}
+      <section id="how-it-works" className="landing-section bg-stone-900 text-white">
+        <div className="landing-container">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-blue-300">{t.nav.howItWorks}</p>
+            <h2 className="landing-title mt-3 font-black">From your photo to a clearer design decision</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {[
+              { number: '01', title: t.features.f1.title, description: t.features.f1.desc },
+              { number: '02', title: t.roomTypes.title, description: t.roomTypes.subtitle },
+              { number: '03', title: t.nav.download, description: t.hero.subtitle },
+            ].map((step) => (
+              <div key={step.number} className="border-t border-stone-700 pt-5">
+                <p className="font-mono text-3xl font-black text-blue-400">{step.number}</p>
+                <h3 className="mt-3 text-lg font-extrabold">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-stone-400">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. TESTIMONIALS */}
+      <section className="landing-section bg-stone-100/70">
+        <div className="landing-container">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-blue-600">{t.socialProof.headline}</p>
+            <h2 className="landing-title mt-3 font-black text-stone-900">Plans feel easier when you can see the options</h2>
+          </div>
+          <div className="review-track">
+            {homeReviews.map((review) => (
+              <figure key={review.name} className="rounded-2xl border border-stone-200 bg-white p-6">
+                <div className="mb-4 flex gap-1 text-amber-500">{[0, 1, 2, 3, 4].map((star) => <Star key={star} className="h-4 w-4 fill-current" />)}</div>
+                <blockquote className="text-sm leading-relaxed text-stone-600">“{review.quote}”</blockquote>
+                <figcaption className="mt-5 border-t border-stone-100 pt-4 text-xs font-extrabold text-stone-900">{review.name}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8. ARTICLES PREVIEW SECTION */}
+      <section id="articles" className="landing-section bg-white border-t border-stone-200/60">
+        <div className="landing-container">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
             <div>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-blue-600 bg-blue-50 border border-blue-200 rounded-full">
@@ -873,8 +946,8 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
         </div>
       </section>
 
-      {/* 7. FAQ SECTION */}
-      <section id="faq" className="py-16 bg-stone-100/50 border-t border-stone-200/60">
+      {/* 9. FAQ SECTION */}
+      <section id="faq" className="landing-section bg-stone-100/50 border-t border-stone-200/60">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-3xl font-black text-center text-stone-900 mb-10">{t.faq.title}</h2>
           <div className="space-y-4">
@@ -888,6 +961,17 @@ const LandingPage = ({ lang, onOpenDownload }: { lang: Language; onOpenDownload:
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 10. FINAL CTA */}
+      <section id="download" className="landing-section bg-blue-600 text-white">
+        <div className="landing-container text-center">
+          <h2 className="landing-title font-black">Preview the room before you commit to the change.</h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-blue-100">{t.hero.subtitle}</p>
+          <button onClick={onOpenDownload} className="mt-8 min-h-12 rounded-full bg-white px-7 text-sm font-extrabold text-blue-700 shadow-lg hover:bg-blue-50">
+            {t.nav.download}
+          </button>
         </div>
       </section>
 
